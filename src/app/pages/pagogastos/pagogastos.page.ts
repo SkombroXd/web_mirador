@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { GastosService } from '../../services/gastos.service';
+import { ApiService } from '../../services/api.service';
+import { ToastController } from '@ionic/angular';
+import { firstValueFrom } from 'rxjs';
 import { Gasto } from '../../interfaces/gasto.interface';
 
 @Component({
@@ -8,57 +12,71 @@ import { Gasto } from '../../interfaces/gasto.interface';
 })
 export class PagogastosPage implements OnInit {
   gastos: Gasto[] = [];
+  departamentos: any[] = [];
+  departamentoSeleccionado: number | undefined;
 
-  constructor() { }
+  constructor(
+    private gastosService: GastosService,
+    private apiService: ApiService,
+    private toastController: ToastController
+  ) {}
 
   ngOnInit() {
-    this.cargarGastos();
+    this.cargarDepartamentos();
   }
 
-  async cargarGastos() {
+  async cargarDepartamentos() {
     try {
-      // Aquí implementaremos la llamada al servicio
-      // Por ahora usaremos datos de ejemplo
-      this.gastos = [
-        {
-          id_gastos: 1,
-          fecha_emision: new Date('2024-03-15'),
-          monto_gasto: 50000,
-          total_pago: 150000,
-          pago: false,
-          id_depa: 1,
-          numero_depto: 101
-        },
-        {
-          id_gastos: 2,
-          fecha_emision: new Date('2024-03-15'),
-          monto_gasto: 50000,
-          fecha_pago: new Date('2024-03-20'),
-          total_pago: 150000,
-          pago: true,
-          id_depa: 2,
-          numero_depto: 102
-        }
-      ];
+      this.departamentos = await firstValueFrom(this.apiService.getDepartamentos());
+    } catch (error) {
+      console.error('Error al cargar departamentos:', error);
+      await this.mostrarMensaje('Error al cargar los departamentos', 'danger');
+    }
+  }
+
+  async buscarGastos() {
+    if (!this.departamentoSeleccionado) {
+      await this.mostrarMensaje('Por favor seleccione un departamento', 'warning');
+      return;
+    }
+
+    try {
+      this.gastos = await firstValueFrom(
+        this.gastosService.obtenerGastosPorDepartamento(this.departamentoSeleccionado)
+      );
     } catch (error) {
       console.error('Error al cargar los gastos:', error);
+      await this.mostrarMensaje('Error al cargar los gastos', 'danger');
     }
   }
 
   async actualizarEstadoPago(gasto: Gasto) {
     try {
-      // Aquí implementaremos la llamada al servicio para actualizar el estado
-      console.log('Actualizando estado de pago:', gasto);
-      // Si el pago cambia a true, actualizamos la fecha de pago
+      await firstValueFrom(
+        this.gastosService.actualizarEstadoPago(gasto.id_gastos, gasto.pago)
+      );
+      
       if (gasto.pago) {
         gasto.fecha_pago = new Date();
       } else {
         gasto.fecha_pago = undefined;
       }
+      
+      await this.mostrarMensaje('Estado de pago actualizado', 'success');
     } catch (error) {
       console.error('Error al actualizar el estado:', error);
-      // Revertir el cambio en caso de error
-      gasto.pago = !gasto.pago;
+      gasto.pago = !gasto.pago; // Revertir el cambio en caso de error
+      await this.mostrarMensaje('Error al actualizar el estado de pago', 'danger');
     }
+  }
+
+  private async mostrarMensaje(mensaje: string, color: string) {
+    const toast = await this.toastController.create({
+      message: mensaje,
+      duration: 2000,
+      color: color,
+      position: 'top'
+    });
+    toast.present();
   }
 }

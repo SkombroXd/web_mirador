@@ -1,0 +1,58 @@
+<ion-content>
+  <div class="container">
+    <aside class="sidebar">
+      <div class="profile">
+        <div class="avatar"></div>
+        <h3>MIRADOR</h3>
+        <p>Gestion de gastos de departamentos</p>
+      </div>
+      <nav class="menu">
+        <a routerLink="/home">Generar gastos comunes</a>
+        <a routerLink="/departamento">Agregar departamento</a>
+        <a routerLink="/pagogastos">Pago de gastos</a>
+        <a routerLink="/vergastos" >Ver gastos comunes</a>
+        <a routerLink="/gpendientes" class="active">Morosidad</a>
+      </nav>
+    </aside>
+    <main class="content">
+      <h1>Registro de Morosos</h1>
+      <section class="form-section">
+        <h2>Filtros de búsqueda</h2>
+        <div class="filter-container">
+          <div class="select-group">
+            <label>Estado de morosidad</label>
+            <div class="select filter-pago">
+              <select [(ngModel)]="filtroMorosidad" (change)="aplicarFiltros()">
+                <option>Todos</option>
+                <option>Morosos</option>
+                <option>No morosos</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>N° Depto</th>
+              <th>Monto Base</th>
+              <th>Estado</th>
+              <th>Gastos Pendientes</th>
+              <th>Total Adeudado</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let depto of departamentosFiltrados">
+              <td>{{ depto.numero }}</td>
+              <td>$ {{ depto.monto | number }}</td>
+              <td [ngClass]="{'moroso': !depto.estado, 'al-dia': depto.estado}">
+                {{ depto.estado ? 'Al día' : 'Moroso' }}
+              </td>
+              <td>{{ depto.gastos_pendientes }}</td>
+              <td>$ {{ depto.total_adeudado | number }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </main>
+  </div>
+</ion-content>

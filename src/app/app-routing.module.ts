@@ -16,16 +16,16 @@ const routes: Routes = [
     loadChildren: () => import('./pages/departamento/departamento.module').then( m => m.DepartamentoPageModule)
   },
   {
-    path: 'gpendientes',
-    loadChildren: () => import('./pages/gpendientes/gpendientes.module').then( m => m.GpendientesPageModule)
-  },
-  {
     path: 'pagogastos',
     loadChildren: () => import('./pages/pagogastos/pagogastos.module').then( m => m.PagogastosPageModule)
   },
   {
     path: 'vergastos',
     loadChildren: () => import('./pages/vergastos/vergastos.module').then( m => m.VergastosPageModule)
+  },
+  {
+    path: 'gpendientes',
+    loadChildren: () => import('./pages/gpendientes/gpendientes.module').then( m => m.GpendientesPageModule)
   },
 ];
 

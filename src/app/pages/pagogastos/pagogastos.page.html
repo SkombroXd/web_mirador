@@ -11,7 +11,7 @@
         <a routerLink="/departamento">Agregar departamento</a>
         <a routerLink="/pagogastos" class="active">Pago de gastos</a>
         <a routerLink="/vergastos">Ver gastos comunes</a>
-        <a routerLink="/gpendientes">Gastos pendientes</a>
+        <a routerLink="/gpendientes">Morosidad</a>
       </nav>
     </aside>
     <main class="content">
@@ -20,16 +20,22 @@
         <form #pagoGastosForm="ngForm">
           <div class="form-group">
             <label for="numero">Número de Departamento</label>
-            <input 
-              type="text" 
+            <select 
               id="numero" 
               name="numero"
+              [(ngModel)]="departamentoSeleccionado"
               required>
+              <option [ngValue]="undefined">Seleccione un departamento</option>
+              <option *ngFor="let depto of departamentos" [ngValue]="depto.id_depa">
+                Departamento {{ depto.numero }} - Monto base: ${{ depto.monto }}
+              </option>
+            </select>
           </div>
 
           <button 
-            type="submit" 
-            class="submit-button">
+            type="button" 
+            class="submit-button"
+            (click)="buscarGastos()">
             Buscar Departamento
           </button>
         </form>
@@ -65,11 +71,6 @@
             </tr>
           </tbody>
         </table>
-        <button 
-        type="submit" 
-        class="submit-button">
-        Enviar cambios
-      </button>
       </section>
     </main>
   </div>

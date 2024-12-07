@@ -36,6 +36,10 @@ export class ApiService {
     );
   }
 
+  getDepartamentosConEstado(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/departamentos/estado`);
+  }
+
   private handleError(error: HttpErrorResponse) {
     console.error('Error en la API:', error);
   
