@@ -19,6 +19,14 @@ const routes: Routes = [
     path: 'gpendientes',
     loadChildren: () => import('./pages/gpendientes/gpendientes.module').then( m => m.GpendientesPageModule)
   },
+  {
+    path: 'pagogastos',
+    loadChildren: () => import('./pages/pagogastos/pagogastos.module').then( m => m.PagogastosPageModule)
+  },
+  {
+    path: 'vergastos',
+    loadChildren: () => import('./pages/vergastos/vergastos.module').then( m => m.VergastosPageModule)
+  },
 ];
 
 @NgModule({
