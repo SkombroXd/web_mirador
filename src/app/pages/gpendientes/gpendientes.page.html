@@ -1,0 +1,60 @@
+<ion-content>
+  <div class="container">
+    <aside class="sidebar">
+      <div class="profile">
+        <div class="avatar"></div>
+        <h3>FIERRO CANTERO, KEVIN BRYAN LEONARDO</h3>
+        <p>kevin.kf.20xdgmail.com</p>
+      </div>
+      <nav class="menu">
+        <a href="#" class="active">Agregar departamento</a>
+        <a href="#">Pago de gastos</a>
+        <a href="#">Filtrar gastos comunes</a>
+        <a href="#">Ver gastos comunes</a>
+        <a href="#">Gastos pendientes</a>
+      </nav>
+    </aside>
+    <main class="content">
+      <h1>Agregar Departamento</h1>
+      <section class="form-section">
+        <form #departamentoForm="ngForm">
+          <div class="form-group">
+            <label for="numero">Número de Departamento</label>
+            <input 
+              type="text" 
+              id="numero" 
+              name="numero"
+              required>
+          </div>
+
+          <div class="form-group">
+            <label for="propietario">Propietario</label>
+            <input 
+              type="text" 
+              id="propietario" 
+              name="propietario"              required>
+          </div>
+
+          <div class="form-group">
+            <label for="estado">Estado</label>
+            <select 
+              id="estado" 
+              name="estado"
+              required>
+              <option value="disponible">Disponible</option>
+              <option value="ocupado">Ocupado</option>
+              <option value="mantenimiento">En mantenimiento</option>
+            </select>
+          </div>
+
+          <button 
+            type="submit" 
+            [disabled]="!departamentoForm.form.valid"
+            class="submit-button">
+            Crear Departamento
+          </button>
+        </form>
+      </section>
+    </main>
+  </div>
+</ion-content>

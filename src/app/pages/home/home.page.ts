@@ -9,4 +9,6 @@ export class HomePage {
 
   constructor() {}
 
+  // Aquí puedes agregar cualquier lógica adicional que necesites
+
 }
