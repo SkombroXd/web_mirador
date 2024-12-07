@@ -1,0 +1,55 @@
+<ion-content>
+  <div class="container">
+    <aside class="sidebar">
+      <div class="profile">
+        <div class="avatar"></div>
+        <h3>MIRADOR</h3>
+        <p>Gestion de gastos de departamentos</p>
+      </div>
+      <nav class="menu">
+        <a routerLink="/home">Generar gastos comunes</a>
+        <a routerLink="/departamento" class="active">Agregar departamento</a>
+        <a routerLink="/pagogastos">Pago de gastos</a>
+        <a routerLink="/vergastos">Ver gastos comunes</a>
+        <a routerLink="/gpendientes">Morosidad</a>
+      </nav>
+    </aside>
+    <main class="content">
+      <h1>Agregar Departamento</h1>
+      <section class="form-section">
+        <form (ngSubmit)="crearDepartamento()" #departamentoForm="ngForm">
+          <div class="form-group">
+            <label for="numero">Número de Departamento</label>
+            <input 
+              type="number" 
+              id="numero" 
+              name="numero"
+              [(ngModel)]="departamento.numero"
+              required
+              min="1"
+              step="1">
+          </div>
+
+          <div class="form-group">
+            <label for="monto">Monto</label>
+            <input 
+              type="number" 
+              id="monto" 
+              name="monto"
+              [(ngModel)]="departamento.monto"
+              required
+              min="0"
+              step="1000">
+          </div>
+
+          <button 
+            type="submit" 
+            [disabled]="!departamentoForm.form.valid"
+            class="submit-button">
+            Crear Departamento
+          </button>
+        </form>
+      </section>
+    </main>
+  </div>
+</ion-content>

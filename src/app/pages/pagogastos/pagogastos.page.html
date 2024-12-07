@@ -1,0 +1,77 @@
+<ion-content>
+  <div class="container">
+    <aside class="sidebar">
+      <div class="profile">
+        <div class="avatar"></div>
+        <h3>MIRADOR</h3>
+        <p>Gestion de gastos de departamentos</p>
+      </div>
+      <nav class="menu">
+        <a routerLink="/home">Generar gastos comunes</a>
+        <a routerLink="/departamento">Agregar departamento</a>
+        <a routerLink="/pagogastos" class="active">Pago de gastos</a>
+        <a routerLink="/vergastos">Ver gastos comunes</a>
+        <a routerLink="/gpendientes">Morosidad</a>
+      </nav>
+    </aside>
+    <main class="content">
+      <h1>Buscar gastos pendientes de un departamento</h1>
+      <section class="form-section">
+        <form #pagoGastosForm="ngForm">
+          <div class="form-group">
+            <label for="numero">Número de Departamento</label>
+            <select 
+              id="numero" 
+              name="numero"
+              [(ngModel)]="departamentoSeleccionado"
+              required>
+              <option [ngValue]="undefined">Seleccione un departamento</option>
+              <option *ngFor="let depto of departamentos" [ngValue]="depto.id_depa">
+                Departamento {{ depto.numero }} - Monto base: ${{ depto.monto }}
+              </option>
+            </select>
+          </div>
+
+          <button 
+            type="button" 
+            class="submit-button"
+            (click)="buscarGastos()">
+            Buscar Departamento
+          </button>
+        </form>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>N° Depto</th>
+              <th>Fecha Emisión</th>
+              <th>Monto Gasto</th>
+              <th>Total a Pagar</th>
+              <th>Estado</th>
+              <th>Fecha Pago</th>
+              <th>Pago</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let gasto of gastos">
+              <td>{{ gasto.numero_depto }}</td>
+              <td>{{ gasto.fecha_emision | date:'dd/MM/yyyy' }}</td>
+              <td>$ {{ gasto.monto_gasto | number }}</td>
+              <td>$ {{ gasto.total_pago | number }}</td>
+              <td>{{ gasto.pago ? 'Pagado' : 'Pendiente' }}</td>
+              <td>{{ gasto.fecha_pago ? (gasto.fecha_pago | date:'dd/MM/yyyy') : '-' }}</td>
+              <td>
+                <select 
+                  [(ngModel)]="gasto.pago" 
+                  name="pago_{{gasto.id_gastos}}"
+                  (change)="actualizarEstadoPago(gasto)">
+                  <option [ngValue]="false" style="color: red;">Sin pagar</option>
+                  <option [ngValue]="true" style="color: green;">Pagado</option>
+                </select>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </main>
+  </div>
+</ion-content>

@@ -1,0 +1,56 @@
+<ion-content>
+  <div class="container">
+    <aside class="sidebar">
+      <div class="profile">
+        <div class="avatar"></div>
+        <h3>MIRADOR</h3>
+        <p>Gestion de gastos de departamentos</p>
+      </div>
+      <nav class="menu">
+        <a routerLink="/home" class="active">Generar gastos comunes</a>
+        <a routerLink="/departamento">Agregar departamento</a>
+        <a routerLink="/pagogastos">Pago de gastos</a>
+        <a routerLink="/vergastos">Ver gastos comunes</a>
+        <a routerLink="/gpendientes">Morosidad</a>
+      </nav>
+    </aside>
+    <main class="content">
+      <h1>Generar gastos a un departamento</h1>
+      <section class="form-section">
+        <form (ngSubmit)="generarGasto()" #generarGastosForm="ngForm">
+          <div class="form-group">
+            <label for="id_depa">Número de Departamento</label>
+            <select 
+              id="id_depa" 
+              name="id_depa"
+              [(ngModel)]="gastoForm.id_depa"
+              required>
+              <option [ngValue]="undefined">Seleccione un departamento</option>
+              <option *ngFor="let depto of departamentos" [ngValue]="depto.id_depa">
+                Departamento {{ depto.numero }} - Monto base: ${{ depto.monto }}
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="monto_gasto">Monto del Gasto</label>
+            <input 
+              type="number" 
+              id="monto_gasto" 
+              name="monto_gasto"
+              [(ngModel)]="gastoForm.monto_gasto"
+              required
+              min="0">
+          </div>
+
+          <button 
+            type="submit" 
+            class="submit-button"
+            [disabled]="!generarGastosForm.form.valid">
+            Generar Gasto
+          </button>
+        </form>
+      </section>
+    </main>
+  </div>
+</ion-content>
